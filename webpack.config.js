@@ -1,4 +1,4 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -41,7 +41,12 @@ module.exports = {
     },
   },
   plugins: [
-    new HtmlWebpackPlugin(),
+    new HTMLWebpackPlugin({
+      template: './index.html',
+      minify: {
+        collapseWhitespace: isProd,
+      },
+    }),
     new CopyPlugin([
       {
         from: path.resolve(__dirname, './src/favicon.ico'),
@@ -55,7 +60,7 @@ module.exports = {
   ],
   devtool: isDev ? 'source-map' : false,
   devServer: {
-    port: 8080,
+    port: 3001,
     hot: true,
   },
   module: {

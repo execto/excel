@@ -1,7 +1,7 @@
-import "./sass/index.scss";
+import './sass/index.scss';
 
 async function f() {
-	await Promise.resolve();
+  return await Promise.resolve();
 }
 
 f();

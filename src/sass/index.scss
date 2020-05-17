@@ -1,5 +1,30 @@
-$red: yellow;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import '~normalize.css';
 
-.cls {
-	color: $red;
+@import 'mixins';
+@import 'variables';
+
+@import 'header';
+@import 'toolbar';
+@import 'formula';
+@import 'table';
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 12px;
+}
+
+body {
+  font-family: 'Roboto', 'sans-serif';
+  box-sizing: border-box;
+}
+
+.excel {
 }

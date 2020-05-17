@@ -1,1 +1,7 @@
-console.log("Hello excel");
+import "./sass/index.scss";
+
+async function f() {
+	await Promise.resolve();
+}
+
+f();

@@ -1,2 +1,19 @@
 .excel__toolbar {
+  position: absolute;
+  display: flex;
+  height: $toolbar-height;
+  left: 0;
+  right: 0;
+  top: $header-height;
+  padding: 7px 10px;
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+
+  & .btn {
+    @include btn(green);
+
+    &:not(list-child) {
+      margin-right: 10px;
+    }
+  }
 }

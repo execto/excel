@@ -24,7 +24,6 @@
 	"homepage": "https://github.com/execto/excel#readme",
 	"devDependencies": {
 		"@babel/core": "^7.9.6",
-		"@babel/polyfill": "^7.8.7",
 		"@babel/preset-env": "^7.9.6",
 		"babel-eslint": "^10.1.0",
 		"babel-loader": "^8.1.0",
@@ -43,5 +42,9 @@
 		"webpack-cli": "^3.3.11",
 		"webpack-dev-server": "^3.11.0"
 	},
-	"private": true
+	"private": true,
+	"dependencies": {
+		"@babel/polyfill": "^7.8.7",
+		"normalize.css": "^8.0.1"
+	}
 }

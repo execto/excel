@@ -1,0 +1,25 @@
+@mixin btn($color) {
+  min-width: 24px;
+  height: 24px;
+  color: rgba(0, 0, 0, 0.7);
+  background: #eee;
+  display: inline-block;
+  text-align: center;
+  padding: 3px;
+  position: relative;
+
+  & span {
+    font-size: 18px;
+  }
+
+  &:active,
+  & .active {
+    color: $color;
+  }
+}
+
+@mixin clear-li() {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

@@ -4,6 +4,9 @@ export class Formula extends ExcelComponent {
   static className = 'excel__formula';
 
   toHTML() {
-    return '<h1>Formula</h1>';
+    return `
+      <div class="icon">fx</div>
+      <div class="input" contenteditable spellcheck="false"></div>
+    `;
   }
 }

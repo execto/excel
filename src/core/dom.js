@@ -11,7 +11,7 @@ class Dom {
       this.$el.innerHTML = html;
       return this;
     }
-    return this.$el.outerHTML;
+    return this.$el.outerHTML.trim();
   }
 
   clear() {
@@ -27,6 +27,14 @@ class Dom {
     }
     this.$el.appendChild(node);
     return this;
+  }
+
+  on(event, callback) {
+    this.$el.addEventListener(event, callback);
+  }
+
+  off(event, callback) {
+    this.$el.removeEventListener(event, callback);
   }
 }
 

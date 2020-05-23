@@ -13,7 +13,39 @@
     height: $row-height;
   }
 
+  .column-resizer,
+  .row-resizer {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    opacity: 0;
+    background-color: $resizer-color;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .column-resizer {
+    width: 4px;
+    top: 0px;
+
+    &:hover {
+      cursor: col-resize;
+    }
+  }
+
+  .row-resizer {
+    height: 4px;
+    left: 0;
+
+    &:hover {
+      cursor: row-resize;
+    }
+  }
+
   & .row-info {
+    position: relative;
     width: $row-info-width;
     min-width: $row-info-width;
     border: 1px solid $border-color;
@@ -27,6 +59,7 @@
     display: flex;
 
     & .column {
+      position: relative;
       width: $cell-width;
       min-width: $cell-width;
       border-right: 1px solid $border-color;

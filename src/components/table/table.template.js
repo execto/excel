@@ -15,6 +15,7 @@ function getColumn(data) {
   return `
     <div class="column">
       ${data}
+      <div class="column-resizer"></div>
     </div>
   `;
 }
@@ -22,7 +23,10 @@ function getColumn(data) {
 function getRow(info, data) {
   return `
     <div class="row">
-      <div class="row-info">${info || ''}</div>
+      <div class="row-info">
+        ${info || ''}
+        ${info ? '<div class="row-resizer"></div>' : ''}
+      </div>
       <div class="row-data">
         ${data.join('')}
       </div>

@@ -36,6 +36,26 @@ class Dom {
   off(event, callback) {
     this.$el.removeEventListener(event, callback);
   }
+
+  css(property, value) {
+    if (property && !value) {
+      return this.$el.style[property];
+    }
+    this.$el.style[property] = value;
+    return this;
+  }
+
+  dataset() {
+    return this.$el.dataset;
+  }
+
+  parent() {
+    return $(this.$el.parentElement);
+  }
+
+  closest(selector) {
+    return $(this.$el.closest(selector));
+  }
 }
 
 export const $ = (selector) => {

@@ -3,9 +3,10 @@ const CHARS = {
   Z: 'Z'.charCodeAt(0),
 };
 
-function getCell(data) {
+function getCell(data, idx) {
+  const cellCls = `cell cell-${String.fromCharCode(CHARS.A + idx)}`;
   return `
-    <div class="cell" contenteditable>
+    <div class="${cellCls}" contenteditable>
       ${data}
     </div>
   `;
@@ -13,19 +14,22 @@ function getCell(data) {
 
 function getColumn(data) {
   return `
-    <div class="column">
+    <div class="column" data-columnname="${data}" data-type="resizeble">
       ${data}
-      <div class="column-resizer"></div>
+      <div class="column-resizer" data-resizer="col"></div>
     </div>
   `;
 }
 
 function getRow(info, data) {
+  const resizer = info
+    ? '<div class="row-resizer" data-resizer="row"></div>'
+    : '';
   return `
-    <div class="row">
+    <div class="row" data-type="resizeble">
       <div class="row-info">
         ${info || ''}
-        ${info ? '<div class="row-resizer"></div>' : ''}
+        ${resizer}
       </div>
       <div class="row-data">
         ${data.join('')}

@@ -16,6 +16,10 @@
   & .active {
     color: $color;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 @mixin clear-li() {

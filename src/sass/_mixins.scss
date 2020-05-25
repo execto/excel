@@ -16,10 +16,20 @@
   & .active {
     color: $color;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 @mixin clear-li() {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+@mixin disableUserSelect() {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }

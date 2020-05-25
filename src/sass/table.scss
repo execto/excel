@@ -13,8 +13,50 @@
     height: $row-height;
   }
 
+  .column-resizer,
+  .row-resizer {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    opacity: 0;
+    background-color: $resizer-color;
+    z-index: 10;
+
+    &:hover,
+    &:active {
+      opacity: 1;
+    }
+  }
+
+  .column-resizer {
+    width: 4px;
+    top: 0px;
+
+    &:hover {
+      cursor: col-resize;
+    }
+
+    &:active {
+      bottom: -5000px;
+    }
+  }
+
+  .row-resizer {
+    height: 4px;
+    left: 0;
+
+    &:hover {
+      cursor: row-resize;
+    }
+
+    &:active {
+      right: -5000px;
+    }
+  }
+
   & .row-info {
-    width: $row-info-width;
+    @include disableUserSelect;
+    position: relative;
     min-width: $row-info-width;
     border: 1px solid $border-color;
     border-top: 0;
@@ -27,6 +69,8 @@
     display: flex;
 
     & .column {
+      @include disableUserSelect;
+      position: relative;
       width: $cell-width;
       min-width: $cell-width;
       border-right: 1px solid $border-color;
@@ -37,7 +81,7 @@
     }
 
     & .cell {
-      width: $cell-width;
+      min-width: $cell-width;
       border-right: 1px solid $border-color;
       border-bottom: 1px solid $border-color;
       outline: none;

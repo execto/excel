@@ -42,10 +42,6 @@ class Dom {
   }
 
   css(styles) {
-    // if (property && !value) {
-    //   return this.$el.style[property];
-    // }
-    // this.$el.style[property] = value;
     Object.assign(this.$el.style, styles);
     return this;
   }

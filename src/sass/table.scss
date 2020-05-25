@@ -35,6 +35,10 @@
     &:hover {
       cursor: col-resize;
     }
+
+    &:active {
+      bottom: -5000px;
+    }
   }
 
   .row-resizer {
@@ -44,9 +48,14 @@
     &:hover {
       cursor: row-resize;
     }
+
+    &:active {
+      right: -5000px;
+    }
   }
 
   & .row-info {
+    @include disableUserSelect;
     position: relative;
     min-width: $row-info-width;
     border: 1px solid $border-color;
@@ -60,6 +69,7 @@
     display: flex;
 
     & .column {
+      @include disableUserSelect;
       position: relative;
       width: $cell-width;
       min-width: $cell-width;

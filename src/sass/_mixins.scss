@@ -27,3 +27,9 @@
   margin: 0;
   padding: 0;
 }
+
+@mixin disableUserSelect() {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}

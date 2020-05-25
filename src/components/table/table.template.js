@@ -4,9 +4,12 @@ const CHARS = {
 };
 
 function getCell(data, idx) {
-  const cellCls = `cell cell-${String.fromCharCode(CHARS.A + idx)}`;
   return `
-    <div class="${cellCls}" contenteditable>
+    <div 
+      class="cell" 
+      data-cellname="${String.fromCharCode(CHARS.A + idx)}" 
+      contenteditable
+    >
       ${data}
     </div>
   `;
@@ -14,7 +17,11 @@ function getCell(data, idx) {
 
 function getColumn(data) {
   return `
-    <div class="column" data-columnname="${data}" data-type="resizeble">
+    <div 
+      class="column" 
+      data-columnname="${data}" 
+      data-type="resizeble"
+    >
       ${data}
       <div class="column-resizer" data-resizer="col"></div>
     </div>

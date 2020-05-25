@@ -1,34 +1,29 @@
 import {$} from '../../core/dom';
-import {getPixelNumber} from '../../core/utils';
-
-// default table sizes in px
-const SIZES = {
-  rowHeight: 24,
-  colWidth: 100,
-};
 
 export class TableResizer {
   resizeSrarted = false;
-  constructor($root) {
-    this.$root = $root;
+  constructor($table) {
+    this.$table = $table;
   }
 
   setResizerInfo(event) {
     this.resizeSrarted = true;
     this.$resizerEl = $(event.target);
-    this.resizerType = this.$resizerEl.dataset().resizer;
+    this.resizerType = this.$resizerEl.data.resizer;
     this.$parentResizerEl = this.$resizerEl.closest('[data-type="resizeble"]');
     this.resizeProperty = this.resizerType === 'col' ? 'right' : 'bottom';
-    this.elPositionValue =
-      this.resizerType === 'col' ? event.clientX : event.clientY;
+    this.resizerSizes = this.$resizerEl.getSizes();
+    this.resizerParentSizes = this.$parentResizerEl.getSizes();
+    this.valueToResize =
+      this.resizerType === 'col' ? this.resizerSizes.x : this.resizerSizes.y;
   }
 
   startResize(event) {
     const value = this.resizerType === 'col' ? event.clientX : event.clientY;
-    this.$resizerEl.css(
-      this.resizeProperty,
-      `${this.elPositionValue - value}px`
-    );
+
+    this.$resizerEl.css({
+      [this.resizeProperty]: `${this.valueToResize - value}px`,
+    });
   }
 
   resize(event) {
@@ -41,29 +36,25 @@ export class TableResizer {
   }
 
   resizeRow(event) {
-    const currentHeight = this.$parentResizerEl.css('height')
-      ? getPixelNumber(this.$parentResizerEl.css('height'))
-      : SIZES.rowHeight;
-    const newHeight = currentHeight + (event.clientY - this.elPositionValue);
+    const currentHeight = this.resizerParentSizes.height;
+    const newHeight = currentHeight + (event.clientY - this.resizerSizes.y);
 
-    this.$parentResizerEl.css('height', `${newHeight}px`);
-    this.$resizerEl.css('bottom', '0px');
+    this.$parentResizerEl.css({height: `${newHeight}px`});
+    this.$resizerEl.css({bottom: '0px'});
   }
 
   resizeCol(event) {
-    const columnName = this.$parentResizerEl.dataset().columnname;
+    const columnName = this.$parentResizerEl.data.columnname;
 
-    const currentWidth = this.$parentResizerEl.css('width')
-      ? getPixelNumber(this.$parentResizerEl.css('width'))
-      : SIZES.colWidth;
-    const newWidth = currentWidth + (event.clientX - this.elPositionValue);
+    const currentWidth = this.resizerParentSizes.width;
+    const newWidth = currentWidth + (event.clientX - this.resizerSizes.x);
     const newWidthInStr = `${newWidth}px`;
 
-    const elements = document.getElementsByClassName(`cell-${columnName}`);
+    const elements = this.$table.findAll(`[data-cellname="${columnName}"]`);
     for (const element of elements) {
       element.style['width'] = newWidthInStr;
     }
-    this.$parentResizerEl.css('width', newWidthInStr);
-    this.$resizerEl.css('right', '0px');
+    this.$parentResizerEl.css({width: newWidthInStr});
+    this.$resizerEl.css({right: '0px'});
   }
 }

@@ -46,6 +46,11 @@ class Dom {
     return this;
   }
 
+  toggleClass(className) {
+    this.$el.classList.toggle(className);
+    return this;
+  }
+
   parent() {
     return $(this.$el.parentElement);
   }
@@ -58,8 +63,17 @@ class Dom {
     return this.$el.getBoundingClientRect();
   }
 
+  find(selector) {
+    return $(this.$el.querySelector(selector));
+  }
+
   findAll(selector) {
-    return this.$el.querySelectorAll(selector);
+    const elements = this.$el.querySelectorAll(selector);
+    const $elements = [];
+    for (const element of elements) {
+      $elements.push($(element));
+    }
+    return $elements;
   }
 }
 

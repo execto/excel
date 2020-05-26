@@ -91,6 +91,7 @@
     }
 
     & .selected {
+      z-index: 1;
       border: none;
       outline: 2px solid #356fe6;
     }

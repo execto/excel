@@ -3,16 +3,21 @@ const CHARS = {
   Z: 'Z'.charCodeAt(0),
 };
 
-function getCell(data, idx) {
-  return `
-    <div 
-      class="cell" 
-      data-cellname="${String.fromCharCode(CHARS.A + idx)}" 
-      contenteditable
-    >
-      ${data}
-    </div>
-  `;
+function getCell(row) {
+  return (data, idx) => {
+    const cellname = String.fromCharCode(CHARS.A + idx);
+    return `
+      <div 
+        class="cell" 
+        data-cellname="${cellname}"
+        data-cellindex="${row}"
+        data-cellcomplexname="${cellname}:${row}" 
+        contenteditable
+      >
+        ${data}
+      </div>
+    `;
+  };
 }
 
 function getColumn(data) {
@@ -61,7 +66,7 @@ export function getTable(rowsCount = 15) {
   rows.push(firstRow);
 
   for (let rowNum = 1; rowNum <= rowsCount; rowNum += 1) {
-    const cells = new Array(columnsCount).fill('').map(getCell);
+    const cells = new Array(columnsCount).fill('').map(getCell(rowNum));
     const row = getRow(rowNum, cells);
     rows.push(row);
   }

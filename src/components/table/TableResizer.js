@@ -50,9 +50,9 @@ export class TableResizer {
     const newWidth = currentWidth + (event.clientX - this.resizerSizes.x);
     const newWidthInStr = `${newWidth}px`;
 
-    const elements = this.$table.findAll(`[data-cellname="${columnName}"]`);
-    for (const element of elements) {
-      element.style['width'] = newWidthInStr;
+    const $elements = this.$table.findAll(`[data-cellname="${columnName}"]`);
+    for (const $element of $elements) {
+      $element.css({width: newWidthInStr});
     }
     this.$parentResizerEl.css({width: newWidthInStr});
     this.$resizerEl.css({right: '0px'});

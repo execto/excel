@@ -11,7 +11,8 @@ function getCell(row) {
         class="cell" 
         data-cellname="${cellname}"
         data-cellindex="${row}"
-        data-cellcomplexname="${cellname}:${row}" 
+        data-cellcomplexname="${cellname}:${row}"
+        data-type="cell"
         contenteditable
       >
         ${data}

@@ -2,6 +2,7 @@ import {ExcelComponent} from '../../core/ExcelComponents';
 import {getTable} from './table.template';
 import {TableResizer} from './TableResizer';
 import {TableSelector} from './TableSelector';
+import {shouldResize, isCell} from './table.helpers';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table';
@@ -21,7 +22,7 @@ export class Table extends ExcelComponent {
   }
 
   onMousedown(event) {
-    if (event.target.dataset.resizer) {
+    if (shouldResize(event)) {
       this.tableResizer.setResizerInfo(event);
       this.$root.on('mousemove', this.onMousemove);
     }
@@ -37,7 +38,7 @@ export class Table extends ExcelComponent {
   }
 
   onClick(event) {
-    if (event.target.dataset.cellname) {
+    if (isCell(event)) {
       this.tableSelector.select(event);
     }
   }

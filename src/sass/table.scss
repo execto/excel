@@ -95,5 +95,9 @@
       border: none;
       outline: 2px solid #356fe6;
     }
+
+    & .multiple-selection-cell {
+      background-color: rgba($color: lightblue, $alpha: 0.5);
+    }
   }
 }

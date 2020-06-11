@@ -23,7 +23,13 @@ export class Table extends ExcelComponent {
 
   onMousedown(event) {
     if (shouldResize(event)) {
-      this.tableResizer.setResizerInfo(event);
+      this.tableResizer.preapreResizer(event);
+      this.$root.on('mousemove', this.onMousemove);
+      return;
+    }
+    if (isCell(event)) {
+      this.tableSelector.select(event);
+      this.tableSelector.preapreMultipleSelection(event);
       this.$root.on('mousemove', this.onMousemove);
     }
   }
@@ -34,14 +40,13 @@ export class Table extends ExcelComponent {
   }
 
   onMousemove(event) {
-    this.tableResizer.startResize(event);
+    this.tableResizer.resizeSrarted && this.tableResizer.moveResizer(event);
+
+    this.tableSelector.multipleSelectionStarted &&
+      this.tableSelector.moveSelector(event);
   }
 
-  onClick(event) {
-    if (isCell(event)) {
-      this.tableSelector.select(event);
-    }
-  }
+  onClick(event) {}
 
   toHTML() {
     return getTable();

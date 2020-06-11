@@ -10,8 +10,8 @@ function getCell(row) {
       <div 
         class="cell" 
         data-cellname="${cellname}"
-        data-cellindex="${row}"
-        data-cellcomplexname="${cellname}:${row}"
+        data-rowindex="${row}"
+        data-cellcomplexname="${idx + 1}:${row}"
         data-type="cell"
         contenteditable
       >

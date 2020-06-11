@@ -6,7 +6,7 @@ export class TableResizer {
     this.$table = $table;
   }
 
-  setResizerInfo(event) {
+  preapreResizer(event) {
     this.resizeSrarted = true;
     this.$resizerEl = $(event.target);
     this.resizerType = this.$resizerEl.data.resizer;
@@ -18,7 +18,7 @@ export class TableResizer {
       this.resizerType === 'col' ? this.resizerSizes.x : this.resizerSizes.y;
   }
 
-  startResize(event) {
+  moveResizer(event) {
     const value = this.resizerType === 'col' ? event.clientX : event.clientY;
 
     this.$resizerEl.css({

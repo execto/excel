@@ -3,11 +3,38 @@ import {ExcelComponent} from '../../core/ExcelComponents';
 export class Formula extends ExcelComponent {
   static className = 'excel__formula';
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
       name: 'Formula',
-      listeners: ['input', 'click'],
+      listeners: ['input', 'click', 'keydown'],
+      ...options,
     });
+  }
+
+  init() {
+    super.init();
+    this.$inputDiv = this.$root.find('.input');
+    this.initSubscribers();
+  }
+
+  initSubscribers() {
+    this.$on('cell:input', (text) => this.$inputDiv.text(text));
+    this.$on('cell:changed', (text) => this.$inputDiv.text(text));
+  }
+
+  onInput(event) {
+    this.$emmit('formula:input', this.$inputDiv.text());
+  }
+
+  onClick(event) {
+    console.log(event.target);
+  }
+
+  onKeydown(keyEvent) {
+    if (keyEvent.code === 'Enter') {
+      keyEvent.preventDefault();
+      this.$emmit('formula:apply');
+    }
   }
 
   toHTML() {
@@ -15,13 +42,5 @@ export class Formula extends ExcelComponent {
       <div class="icon">fx</div>
       <div class="input" contenteditable spellcheck="false"></div>
     `;
-  }
-
-  onInput(event) {
-    console.log(event.target.innerText);
-  }
-
-  onClick(event) {
-    console.log(event.target);
   }
 }

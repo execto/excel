@@ -6,6 +6,22 @@ import {
   isEqualCells,
 } from './table.helpers';
 
+export const tableSelectorKeyCodes = [
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'Enter',
+  'Tab',
+];
+
+export const arrowKeyCodes = [
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+];
+
 export class TableSelector {
   static selectedStyle = 'selected';
   static multipleSelectionCellStyle = 'multiple-selection-cell';
@@ -18,15 +34,26 @@ export class TableSelector {
     this.init();
   }
 
+  get activeCellText() {
+    return this.$activeCell.text();
+  }
+
   init() {
     this.$activeCell = this.$table.find('[data-cellcomplexname="1:1"]');
     this.$activeCell.toggleClass(TableSelector.selectedStyle);
+    this.$activeCell.focus();
   }
 
   select(event) {
+    const $cell = $(event.target);
+    this.selectCell($cell);
+  }
+
+  selectCell($cell) {
     this.$activeCell.toggleClass(TableSelector.selectedStyle);
-    this.$activeCell = $(event.target);
+    this.$activeCell = $cell;
     this.$activeCell.toggleClass(TableSelector.selectedStyle);
+    this.$activeCell.focus();
   }
 
   preapreMultipleSelection(event) {
@@ -84,5 +111,85 @@ export class TableSelector {
     );
 
     return $cells;
+  }
+
+  handleKeydown(keyCode) {
+    if (arrowKeyCodes.indexOf(keyCode) > -1) {
+      this.handleArrowsKey(keyCode);
+      return;
+    }
+    if (keyCode === 'Tab') {
+      this.handleTabKey();
+      return;
+    }
+    if (keyCode === 'Enter') {
+      this.handleEnterKey();
+      return;
+    }
+    throw new Error('Impossible key code for TableSelector');
+  }
+
+  handleArrowsKey(keyCode) {
+    const [colIdx, rowIdx] = getCellIndexes(this.$activeCell);
+
+    let nextCellIdx;
+    switch (keyCode) {
+      case 'ArrowLeft':
+        nextCellIdx = `${colIdx - 1}:${rowIdx}`;
+        break;
+      case 'ArrowRight':
+        nextCellIdx = `${colIdx + 1}:${rowIdx}`;
+        break;
+      case 'ArrowUp':
+        nextCellIdx = `${colIdx}:${rowIdx - 1}`;
+        break;
+      case 'ArrowDown':
+        nextCellIdx = `${colIdx}:${rowIdx + 1}`;
+        break;
+      default:
+        throw new Error('Unknown arrow key code');
+    }
+
+    const $nextCell = this.$table.find(
+      `[data-cellcomplexname="${nextCellIdx}"]`
+    );
+    if ($nextCell) {
+      this.$activeCell.blur();
+      this.selectCell($nextCell);
+    }
+  }
+
+  handleTabKey() {
+    const [colIdx, rowIdx] = getCellIndexes(this.$activeCell);
+    const nextCellIdx = `${colIdx + 1}:${rowIdx}`;
+
+    const $nextCell = this.$table.find(
+      `[data-cellcomplexname="${nextCellIdx}"]`
+    );
+    if ($nextCell) {
+      this.$activeCell.blur();
+      this.selectCell($nextCell);
+    }
+  }
+
+  handleEnterKey() {
+    const [colIdx, rowIdx] = getCellIndexes(this.$activeCell);
+    const nextCellIdx = `${colIdx}:${rowIdx + 1}`;
+
+    const $nextCell = this.$table.find(
+      `[data-cellcomplexname="${nextCellIdx}"]`
+    );
+    if ($nextCell) {
+      this.$activeCell.blur();
+      this.selectCell($nextCell);
+    }
+  }
+
+  handleFormulaInput(text) {
+    this.$activeCell.text(text);
+  }
+
+  handleFormulaApply() {
+    this.$activeCell.focus();
   }
 }

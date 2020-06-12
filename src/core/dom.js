@@ -18,6 +18,14 @@ class Dom {
     return this.$el.outerHTML.trim();
   }
 
+  text(text) {
+    if (typeof text !== 'string') {
+      return this.$el.innerText.trim();
+    }
+    this.$el.innerText = text;
+    return this;
+  }
+
   clear() {
     this.$el.innerHTML = '';
     return this;
@@ -31,6 +39,14 @@ class Dom {
     }
     this.$el.appendChild(node);
     return this;
+  }
+
+  focus() {
+    this.$el.focus();
+  }
+
+  blur() {
+    this.$el.blur();
   }
 
   on(event, callback) {
@@ -74,7 +90,11 @@ class Dom {
   }
 
   find(selector) {
-    return $(this.$el.querySelector(selector));
+    const el = this.$el.querySelector(selector);
+    if (el) {
+      return $(el);
+    }
+    return null;
   }
 
   findAll(selector) {

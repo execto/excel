@@ -3,6 +3,7 @@ import {getTable} from './table.template';
 import {TableResizer} from './TableResizer';
 import {TableSelector, tableSelectorKeyCodes} from './TableSelector';
 import {shouldResize, isCell} from './table.helpers';
+import {resizeTable} from '../../redux/actionCreators';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table';
@@ -18,10 +19,11 @@ export class Table extends ExcelComponent {
 
   init() {
     super.init();
-    this.tableResizer = new TableResizer(this.$root);
+    this.tableResizer = new TableResizer(this.$root, this.$getState());
     this.tableSelector = new TableSelector(this.$root);
     this.initSubscribers();
     this.$emmit('cell:changed', this.tableSelector.activeCellText);
+    this.$subscrbe((state) => console.log(state));
   }
 
   initSubscribers() {
@@ -53,7 +55,10 @@ export class Table extends ExcelComponent {
 
   onMouseup(event) {
     this.$root.off('mousemove', this.onMousemove);
-    this.tableResizer.resizeSrarted && this.tableResizer.resize(event);
+    this.tableResizer.resizeSrarted &&
+      this.tableResizer
+        .resize(event)
+        .then((data) => this.$dispatch(resizeTable(data)));
   }
 
   onMousemove(event) {
@@ -74,6 +79,6 @@ export class Table extends ExcelComponent {
   }
 
   toHTML() {
-    return getTable();
+    return getTable(15, this.$getState());
   }
 }

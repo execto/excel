@@ -15,6 +15,8 @@ export function createStore(rootReducer, initialState) {
       state = rootReducer(state, action);
       listeners.map((ls) => ls(state));
     },
-    getState() {},
+    getState() {
+      return state;
+    },
   };
 }

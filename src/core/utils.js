@@ -12,3 +12,10 @@ export const getPixelNumber = (string) => {
   }
   return Number(string.slice(0, idxPxPostfix));
 };
+
+export const storage = (key, value = null) => {
+  if (!value) {
+    return JSON.parse(localStorage.getItem(key));
+  }
+  localStorage.setItem(key, JSON.stringify(value));
+};

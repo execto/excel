@@ -1,3 +1,14 @@
 export function rootReducer(state, action) {
-  return state;
+  switch (action.type) {
+    case 'TABLE_RESIZE':
+      return {
+        ...state,
+        colState: {
+          ...state.colState,
+          [action.data.id]: action.data.value,
+        },
+      };
+    default:
+      return state;
+  }
 }

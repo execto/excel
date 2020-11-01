@@ -6,6 +6,7 @@ export class Excel {
     this.$el = $(selector);
     this.components = options.components || [];
     this.emmiter = new Emmiter();
+    this.store = options.store;
   }
 
   getRoot() {
@@ -13,6 +14,7 @@ export class Excel {
 
     const componentOptions = {
       emmiter: this.emmiter,
+      store: this.store,
     };
 
     this.components = this.components.map((Component) => {

@@ -38,6 +38,10 @@ export class TableSelector {
     return this.$activeCell.text();
   }
 
+  get activeCellIdx() {
+    return this.$activeCell.data.cellcomplexname;
+  }
+
   init() {
     this.$activeCell = this.$table.find('[data-cellcomplexname="1:1"]');
     this.$activeCell.toggleClass(TableSelector.selectedStyle);

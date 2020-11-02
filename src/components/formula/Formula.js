@@ -18,8 +18,9 @@ export class Formula extends ExcelComponent {
   }
 
   initSubscribers() {
-    this.$on('cell:input', (text) => this.$inputDiv.text(text));
+    // this.$on('cell:input', (text) => this.$inputDiv.text(text));
     this.$on('cell:changed', (text) => this.$inputDiv.text(text));
+    this.$subscrbe((state) => this.$inputDiv.text(state.currentText));
   }
 
   onInput(event) {

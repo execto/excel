@@ -1,4 +1,4 @@
-import {TABLE_RESIZE} from './actionTypes';
+import {CHANGE_TEXT, TABLE_RESIZE} from './actionTypes';
 
 export const resizeTable = (data) => {
   const colState = {};
@@ -15,5 +15,12 @@ export const resizeTable = (data) => {
       rowState,
       colState,
     },
+  };
+};
+
+export const changeText = (data) => {
+  return {
+    type: CHANGE_TEXT,
+    data,
   };
 };

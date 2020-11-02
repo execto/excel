@@ -3,7 +3,7 @@ import {getTable} from './table.template';
 import {TableResizer} from './TableResizer';
 import {TableSelector, tableSelectorKeyCodes} from './TableSelector';
 import {shouldResize, isCell} from './table.helpers';
-import {resizeTable} from '../../redux/actionCreators';
+import {changeText, resizeTable} from '../../redux/actionCreators';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table';
@@ -22,21 +22,28 @@ export class Table extends ExcelComponent {
     this.tableResizer = new TableResizer(this.$root, this.$getState());
     this.tableSelector = new TableSelector(this.$root);
     this.initSubscribers();
-    this.$emmit('cell:changed', this.tableSelector.activeCellText);
-    this.$subscrbe((state) => console.log(state));
+    this.updateCellState();
   }
 
   initSubscribers() {
     this.$on('formula:apply', () => this.tableSelector.handleFormulaApply());
-    this.$on('formula:input', (text) =>
-      this.tableSelector.handleFormulaInput(text)
-    );
+    this.$on('formula:input', (text) => {
+      console.log(text);
+      this.tableSelector.handleFormulaInput(text);
+      this.updateCellState();
+    });
   }
 
   onInput(event) {
     if (isCell(event)) {
-      this.$emmit('cell:input', this.tableSelector.activeCellText);
+      this.updateCellState();
     }
+  }
+
+  updateCellState() {
+    const activeCellText = this.tableSelector.activeCellText;
+    const activeCellId = this.tableSelector.activeCellIdx;
+    this.$dispatch(changeText({id: activeCellId, value: activeCellText}));
   }
 
   onMousedown(event) {
@@ -47,6 +54,7 @@ export class Table extends ExcelComponent {
     }
     if (isCell(event)) {
       this.tableSelector.select(event);
+      // this.updateCellState();
       this.$emmit('cell:changed', this.tableSelector.activeCellText);
       this.tableSelector.preapreMultipleSelection(event);
       this.$root.on('mousemove', this.onMousemove);

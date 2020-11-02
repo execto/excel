@@ -12,21 +12,23 @@ function getSize(value, defaultValue) {
   return (value || defaultValue) + 'px';
 }
 
-function getCell(row, colState) {
+function getCell(row, state) {
   return (data, idx) => {
     const cellname = String.fromCharCode(CHARS.A + idx);
-    const width = getSize(colState[cellname], DEFAULT_HEIGHT);
+    const width = getSize(state.colState[cellname], DEFAULT_HEIGHT);
+    const cellComplexName = `${idx + 1}:${row}`;
+    const cellValue = state.cellData[cellComplexName] || '';
     return `
       <div 
         class="cell" 
         data-cellname="${cellname}"
         data-rowindex="${row}"
-        data-cellcomplexname="${idx + 1}:${row}"
+        data-cellcomplexname="${cellComplexName}"
         data-type="cell"
         style="width: ${width};"
         contenteditable
       >
-        ${data}
+        ${cellValue}
       </div>
     `;
   };
@@ -90,9 +92,7 @@ export function getTable(rowsCount = 15, state) {
   rows.push(firstRow);
 
   for (let rowNum = 1; rowNum <= rowsCount; rowNum += 1) {
-    const cells = new Array(columnsCount)
-      .fill('')
-      .map(getCell(rowNum, state.colState));
+    const cells = new Array(columnsCount).fill('').map(getCell(rowNum, state));
     const row = getRow(rowNum, cells, state.rowState);
     rows.push(row);
   }

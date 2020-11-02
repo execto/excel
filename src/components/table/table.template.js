@@ -1,18 +1,21 @@
+import {appendData} from '../../core/utils';
+
 const CHARS = {
   A: 'A'.charCodeAt(0),
   Z: 'Z'.charCodeAt(0),
 };
 
 const DEFAULT_WIDTH = 100;
+const DEFAULT_HEIGHT = 24;
 
-function getColumnWidth(value) {
-  return (value || DEFAULT_WIDTH) + 'px';
+function getSize(value, defaultValue) {
+  return (value || defaultValue) + 'px';
 }
 
 function getCell(row, colState) {
   return (data, idx) => {
     const cellname = String.fromCharCode(CHARS.A + idx);
-    const width = getColumnWidth(colState[cellname]);
+    const width = getSize(colState[cellname], DEFAULT_HEIGHT);
     return `
       <div 
         class="cell" 
@@ -30,7 +33,7 @@ function getCell(row, colState) {
 }
 
 function getColumn(data, colState) {
-  const width = getColumnWidth(colState[data]);
+  const width = getSize(colState[data], DEFAULT_WIDTH);
   return `
     <div 
       class="column" 
@@ -44,12 +47,21 @@ function getColumn(data, colState) {
   `;
 }
 
-function getRow(info, data) {
+function getRow(info, data, rowState) {
+  const htmlData = {
+    type: info ? 'resizeble' : false,
+    linenumber: info,
+  };
+  const height = getSize(rowState[info], DEFAULT_HEIGHT);
   const resizer = info
     ? '<div class="row-resizer" data-resizer="row"></div>'
     : '';
   return `
-    <div class="row" data-type="resizeble">
+    <div
+      class="row"
+      ${appendData(htmlData)}
+      style="height: ${height}"
+    >
       <div class="row-info">
         ${info || ''}
         ${resizer}
@@ -65,7 +77,7 @@ function getCharFromCode(_, idx) {
   return String.fromCharCode(CHARS.A + idx);
 }
 
-export function getTable(rowsCount = 15, state = {}) {
+export function getTable(rowsCount = 15, state) {
   const rows = [];
   const columnsCount = CHARS.Z - CHARS.A + 1;
 
@@ -74,14 +86,14 @@ export function getTable(rowsCount = 15, state = {}) {
     .map(getCharFromCode)
     .map((data) => getColumn(data, state.colState));
 
-  const firstRow = getRow(null, cols);
+  const firstRow = getRow(null, cols, {});
   rows.push(firstRow);
 
   for (let rowNum = 1; rowNum <= rowsCount; rowNum += 1) {
     const cells = new Array(columnsCount)
       .fill('')
       .map(getCell(rowNum, state.colState));
-    const row = getRow(rowNum, cells);
+    const row = getRow(rowNum, cells, state.rowState);
     rows.push(row);
   }
 

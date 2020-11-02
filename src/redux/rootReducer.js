@@ -5,7 +5,11 @@ export function rootReducer(state, action) {
         ...state,
         colState: {
           ...state.colState,
-          [action.data.id]: action.data.value,
+          ...action.data.colState,
+        },
+        rowState: {
+          ...state.rowState,
+          ...action.data.rowState,
         },
       };
     default:

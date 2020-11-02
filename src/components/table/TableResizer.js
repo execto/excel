@@ -35,8 +35,11 @@ export class TableResizer {
         newValue = this.resizeRow(event);
       }
       this.resizeSrarted = false;
+
       resolve({
-        id: this.$parentResizerEl.data.columnname || 1,
+        id:
+          this.$parentResizerEl.data.columnname ||
+          this.$parentResizerEl.data.linenumber,
         value: newValue,
       });
     });

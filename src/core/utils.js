@@ -19,3 +19,9 @@ export const storage = (key, value = null) => {
   }
   localStorage.setItem(key, JSON.stringify(value));
 };
+
+export const appendData = (data) => {
+  return Object.keys(data).reduce((acc, dataKey) => {
+    return data[dataKey] ? `${acc} data-${dataKey}="${data[dataKey]}"` : acc;
+  }, '');
+};

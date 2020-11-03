@@ -20,6 +20,7 @@ function createButton({icon, styleValue, active}) {
 }
 
 export function createToolbar() {
+  console.log('render');
   const buttons = [
     {
       icon: 'format_align_left',

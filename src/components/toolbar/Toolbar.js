@@ -1,8 +1,8 @@
-import {ExcelComponent} from '../../core/ExcelComponents';
+import {StatefullExcelComponent} from '../../core/StatefullExcelComponent';
 import {createToolbar} from './toolbar.template';
 import {$} from '../../core/dom';
 
-export class Toolbar extends ExcelComponent {
+export class Toolbar extends StatefullExcelComponent {
   static className = 'excel__toolbar';
 
   constructor($root, options) {
@@ -13,14 +13,29 @@ export class Toolbar extends ExcelComponent {
     });
   }
 
+  get template() {
+    return createToolbar(this.state);
+  }
+
+  prepare() {
+    const state = {
+      textAlign: 'left',
+      fontWeight: 'normal',
+      fontStyle: 'none',
+      textDecoration: 'none',
+    };
+    this.initState(state);
+  }
+
   onClick(event) {
     const $target = $(event.target);
     if ($target.data.type === 'toolbar-btn') {
-      console.log($target.data.style);
+      const styleValue = JSON.parse($target.data.style);
+      this.setState({...styleValue});
     }
   }
 
   toHTML() {
-    return createToolbar();
+    return this.template;
   }
 }

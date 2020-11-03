@@ -7,6 +7,7 @@ export class ExcelComponent extends DomListener {
     this.emmiter = options.emmiter;
     this.unsubscribers = [];
     this.store = options.store;
+    this.storeKeySubsctiption = options.storeKeySubsctiption || [];
   }
 
   toHTML() {
@@ -26,9 +27,7 @@ export class ExcelComponent extends DomListener {
     this.store.dispatch(action);
   }
 
-  $subscrbe(callback) {
-    this.$storeSub = this.store.subscribe(callback);
-  }
+  storeChanged() {}
 
   $getState() {
     return this.store.getState();

@@ -28,7 +28,6 @@ export class Table extends ExcelComponent {
   initSubscribers() {
     this.$on('formula:apply', () => this.tableSelector.handleFormulaApply());
     this.$on('formula:input', (text) => {
-      console.log(text);
       this.tableSelector.handleFormulaInput(text);
       this.updateCellState();
     });

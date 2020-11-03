@@ -7,6 +7,7 @@ export class Formula extends ExcelComponent {
     super($root, {
       name: 'Formula',
       listeners: ['input', 'click', 'keydown'],
+      storeKeySubsctiption: ['currentText'],
       ...options,
     });
   }
@@ -15,12 +16,15 @@ export class Formula extends ExcelComponent {
     super.init();
     this.$inputDiv = this.$root.find('.input');
     this.initSubscribers();
+    this.$inputDiv.text(this.store.getState().currentText || '');
   }
 
   initSubscribers() {
-    // this.$on('cell:input', (text) => this.$inputDiv.text(text));
     this.$on('cell:changed', (text) => this.$inputDiv.text(text));
-    this.$subscrbe((state) => this.$inputDiv.text(state.currentText));
+  }
+
+  storeChanged({currentText}) {
+    this.$inputDiv.text(currentText);
   }
 
   onInput(event) {

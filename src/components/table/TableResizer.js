@@ -2,7 +2,7 @@ import {$} from '../../core/dom';
 
 export class TableResizer {
   resizeSrarted = false;
-  constructor($table, initialSizes) {
+  constructor($table) {
     this.$table = $table;
   }
 

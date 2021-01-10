@@ -48,6 +48,11 @@ export class TableSelector {
     this.$activeCell.focus();
   }
 
+  applyStyles(styles) {
+    this.$activeCell.css(styles);
+    this.$selectedCells.forEach(($cell) => $cell.css(styles));
+  }
+
   select(event) {
     const $cell = $(event.target);
     this.selectCell($cell);

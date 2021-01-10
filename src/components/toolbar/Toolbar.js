@@ -31,6 +31,7 @@ export class Toolbar extends StatefullExcelComponent {
     const $target = $(event.target);
     if ($target.data.type === 'toolbar-btn') {
       const styleValue = JSON.parse($target.data.style);
+      this.$emmit('toolbar:applyStyles', styleValue);
       this.setState({...styleValue});
     }
   }

@@ -19,38 +19,41 @@ function createButton({icon, styleValue, active}) {
     `;
 }
 
-export function createToolbar() {
-  console.log('render');
+export function createToolbar(state) {
+  console.log(state);
+  const {textAlign, fontWeight, fontStyle, textDecoration} = state;
   const buttons = [
     {
       icon: 'format_align_left',
-      active: false,
+      active: textAlign === 'left',
       styleValue: {textAlign: 'left'},
     },
     {
       icon: 'format_align_center',
-      active: false,
+      active: textAlign === 'center',
       styleValue: {textAlign: 'center'},
     },
     {
       icon: 'format_align_right',
-      active: false,
+      active: textAlign === 'right',
       styleValue: {textAlign: 'right'},
     },
     {
       icon: 'format_bold',
-      active: false,
-      styleValue: {fontWeight: 'bold'},
+      active: fontWeight === 'bold',
+      styleValue: {fontWeight: fontWeight === 'bold' ? 'normal' : 'bold'},
     },
     {
       icon: 'format_italic',
-      active: false,
-      styleValue: {fontStyle: 'italic'},
+      active: fontStyle === 'italic',
+      styleValue: {fontStyle: fontStyle === 'italic' ? 'normal' : 'italic'},
     },
     {
       icon: 'format_underline',
-      active: false,
-      styleValue: {textDecoration: 'underline'},
+      active: textDecoration === 'underline',
+      styleValue: {
+        textDecoration: textDecoration === 'underline' ? 'none' : 'underline',
+      },
     },
   ];
 

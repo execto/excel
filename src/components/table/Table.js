@@ -31,6 +31,9 @@ export class Table extends ExcelComponent {
       this.tableSelector.handleFormulaInput(text);
       this.updateCellState();
     });
+    this.$on('toolbar:applyStyles', (styles) =>
+      this.tableSelector.applyStyles(styles)
+    );
   }
 
   onInput(event) {

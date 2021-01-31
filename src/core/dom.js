@@ -62,6 +62,15 @@ class Dom {
     return this;
   }
 
+  getCss(styles) {
+    return styles.reduce((styles, prop) => {
+      return {
+        ...styles,
+        [prop]: this.$el.style[prop],
+      };
+    }, {});
+  }
+
   toggleClass(className) {
     this.$el.classList.toggle(className);
     return this;

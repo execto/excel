@@ -5,6 +5,8 @@ const defaultState = {
   rowState: {},
   currentText: '',
   cellData: {},
+  cellStyles: {},
+  currentCellStyles: {},
 };
 
 export const initialState = storage('exc-table') || defaultState;

@@ -1,6 +1,7 @@
 import {StatefullExcelComponent} from '../../core/StatefullExcelComponent';
 import {createToolbar} from './toolbar.template';
 import {$} from '../../core/dom';
+import {cellStyles} from '../../consts/cellStyles';
 
 export class Toolbar extends StatefullExcelComponent {
   static className = 'excel__toolbar';
@@ -9,6 +10,7 @@ export class Toolbar extends StatefullExcelComponent {
     super($root, {
       name: 'Toolbar',
       listeners: ['click'],
+      storeKeySubsctiption: ['currentCellStyles'],
       ...options,
     });
   }
@@ -18,13 +20,11 @@ export class Toolbar extends StatefullExcelComponent {
   }
 
   prepare() {
-    const state = {
-      textAlign: 'left',
-      fontWeight: 'normal',
-      fontStyle: 'none',
-      textDecoration: 'none',
-    };
-    this.initState(state);
+    this.initState(cellStyles);
+  }
+
+  storeChanged(state) {
+    this.setState(state.currentCellStyles);
   }
 
   onClick(event) {
@@ -32,7 +32,6 @@ export class Toolbar extends StatefullExcelComponent {
     if ($target.data.type === 'toolbar-btn') {
       const styleValue = JSON.parse($target.data.style);
       this.$emmit('toolbar:applyStyles', styleValue);
-      this.setState({...styleValue});
     }
   }
 

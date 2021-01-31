@@ -1,4 +1,9 @@
-import {CHANGE_TEXT, TABLE_RESIZE} from './actionTypes';
+import {
+  CELL_STYLE_CHANGE,
+  CHANGE_TEXT,
+  TABLE_RESIZE,
+  APPLY_CELL_STYLES,
+} from './actionTypes';
 
 export const resizeTable = (data) => {
   const colState = {};
@@ -21,6 +26,20 @@ export const resizeTable = (data) => {
 export const changeText = (data) => {
   return {
     type: CHANGE_TEXT,
+    data,
+  };
+};
+
+export const cellStyleChange = (data) => {
+  return {
+    type: CELL_STYLE_CHANGE,
+    data,
+  };
+};
+
+export const applyCellStyles = (data) => {
+  return {
+    type: APPLY_CELL_STYLES,
     data,
   };
 };

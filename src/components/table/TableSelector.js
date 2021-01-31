@@ -42,6 +42,17 @@ export class TableSelector {
     return this.$activeCell.data.cellcomplexname;
   }
 
+  get activeCellsIds() {
+    const cells = [];
+    this.$selectedCells.forEach((cell) =>
+      cells.push(cell.data.cellcomplexname)
+    );
+    if (cells.indexOf(this.activeCellIdx) === -1) {
+      cells.push(this.activeCellIdx);
+    }
+    return cells;
+  }
+
   init() {
     this.$activeCell = this.$table.find('[data-cellcomplexname="1:1"]');
     this.$activeCell.toggleClass(TableSelector.selectedStyle);

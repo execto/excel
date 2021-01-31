@@ -25,3 +25,15 @@ export const appendData = (data) => {
     return data[dataKey] ? `${acc} data-${dataKey}="${data[dataKey]}"` : acc;
   }, '');
 };
+
+export const camelToDashCase = (str) => {
+  return str.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
+};
+
+export const styleObjectToInline = (styles) => {
+  return Object.keys(styles)
+    .reduce((acc, styleProp) => {
+      return [...acc, `${camelToDashCase(styleProp)}: ${styles[styleProp]}`];
+    }, [])
+    .join(';');
+};

@@ -1,4 +1,5 @@
-import {appendData} from '../../core/utils';
+import {cellStyles} from '../../consts/cellStyles';
+import {appendData, styleObjectToInline} from '../../core/utils';
 
 const CHARS = {
   A: 'A'.charCodeAt(0),
@@ -12,12 +13,20 @@ function getSize(value, defaultValue) {
   return (value || defaultValue) + 'px';
 }
 
+function getCellStyle(style) {
+  console.log(style);
+  const cellStyle = style ? {...cellStyles, ...style} : {...cellStyles};
+  return styleObjectToInline(cellStyle);
+}
+
 function getCell(row, state) {
   return (data, idx) => {
     const cellname = String.fromCharCode(CHARS.A + idx);
     const width = getSize(state.colState[cellname], DEFAULT_HEIGHT);
     const cellComplexName = `${idx + 1}:${row}`;
     const cellValue = state.cellData[cellComplexName] || '';
+    const cellDefaultStyles = getCellStyle(state.cellStyles[cellComplexName]);
+
     return `
       <div 
         class="cell" 
@@ -25,7 +34,7 @@ function getCell(row, state) {
         data-rowindex="${row}"
         data-cellcomplexname="${cellComplexName}"
         data-type="cell"
-        style="width: ${width};"
+        style="${cellDefaultStyles}; width: ${width};"
         contenteditable
       >
         ${cellValue}

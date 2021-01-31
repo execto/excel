@@ -20,7 +20,6 @@ function createButton({icon, styleValue, active}) {
 }
 
 export function createToolbar(state) {
-  console.log(state);
   const {textAlign, fontWeight, fontStyle, textDecoration} = state;
   const buttons = [
     {

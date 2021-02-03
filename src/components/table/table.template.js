@@ -14,7 +14,6 @@ function getSize(value, defaultValue) {
 }
 
 function getCellStyle(style) {
-  console.log(style);
   const cellStyle = style ? {...cellStyles, ...style} : {...cellStyles};
   return styleObjectToInline(cellStyle);
 }

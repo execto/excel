@@ -3,6 +3,7 @@ import {
   CHANGE_TEXT,
   TABLE_RESIZE,
   APPLY_CELL_STYLES,
+  TABLE_NAME_CHANGE,
 } from './actionTypes';
 
 export const resizeTable = (data) => {
@@ -40,6 +41,13 @@ export const cellStyleChange = (data) => {
 export const applyCellStyles = (data) => {
   return {
     type: APPLY_CELL_STYLES,
+    data,
+  };
+};
+
+export const tableNameChange = (data) => {
+  return {
+    type: TABLE_NAME_CHANGE,
     data,
   };
 };

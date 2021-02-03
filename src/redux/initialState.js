@@ -7,6 +7,7 @@ const defaultState = {
   cellData: {},
   cellStyles: {},
   currentCellStyles: {},
+  tableName: 'New table',
 };
 
 export const initialState = storage('exc-table') || defaultState;

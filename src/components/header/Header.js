@@ -1,4 +1,6 @@
 import {ExcelComponent} from '../../core/ExcelComponents';
+import {tableNameChange} from '../../redux/actionCreators';
+import {getHeaderTemplate} from './header.template';
 
 export class Header extends ExcelComponent {
   static className = 'excel__header';
@@ -6,25 +8,21 @@ export class Header extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: 'Header',
+      listeners: ['input'],
+      storeKeySubsctiption: ['tableName'],
       ...options,
     });
   }
 
+  get template() {
+    return getHeaderTemplate(this.$getState().tableName || 'New table');
+  }
+
+  onInput(event) {
+    this.$dispatch(tableNameChange(event.target.value));
+  }
+
   toHTML() {
-    return `
-      <input type="text" class="input" value="New table" />
-      <div>
-        <div class="btn">
-          <span class="material-icons">
-            delete
-          </span>
-        </div>
-        <div class="btn">
-          <span class="material-icons">
-            exit_to_app
-          </span>
-        </div>
-      </div>
-    `;
+    return this.template;
   }
 }

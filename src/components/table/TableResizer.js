@@ -27,12 +27,22 @@ export class TableResizer {
   }
 
   resize(event) {
-    if (this.resizerType === 'col') {
-      this.resizeCol(event);
-    } else {
-      this.resizeRow(event);
-    }
-    this.resizeSrarted = false;
+    return new Promise((resolve) => {
+      let newValue;
+      if (this.resizerType === 'col') {
+        newValue = this.resizeCol(event);
+      } else {
+        newValue = this.resizeRow(event);
+      }
+      this.resizeSrarted = false;
+
+      resolve({
+        id:
+          this.$parentResizerEl.data.columnname ||
+          this.$parentResizerEl.data.linenumber,
+        value: newValue,
+      });
+    });
   }
 
   resizeRow(event) {
@@ -41,6 +51,7 @@ export class TableResizer {
 
     this.$parentResizerEl.css({height: `${newHeight}px`});
     this.$resizerEl.css({bottom: '0px'});
+    return newHeight;
   }
 
   resizeCol(event) {
@@ -56,5 +67,6 @@ export class TableResizer {
     }
     this.$parentResizerEl.css({width: newWidthInStr});
     this.$resizerEl.css({right: '0px'});
+    return newWidth;
   }
 }

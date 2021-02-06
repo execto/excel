@@ -3,6 +3,13 @@ import {getTable} from './table.template';
 import {TableResizer} from './TableResizer';
 import {TableSelector, tableSelectorKeyCodes} from './TableSelector';
 import {shouldResize, isCell} from './table.helpers';
+import {
+  applyCellStyles,
+  cellStyleChange,
+  changeText,
+  resizeTable,
+} from '../../redux/actionCreators';
+import {cellStyles} from '../../consts/cellStyles';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table';
@@ -18,23 +25,44 @@ export class Table extends ExcelComponent {
 
   init() {
     super.init();
-    this.tableResizer = new TableResizer(this.$root);
+    this.tableResizer = new TableResizer(this.$root, this.$getState());
     this.tableSelector = new TableSelector(this.$root);
     this.initSubscribers();
-    this.$emmit('cell:changed', this.tableSelector.activeCellText);
+    this.updateCellState();
   }
 
   initSubscribers() {
     this.$on('formula:apply', () => this.tableSelector.handleFormulaApply());
-    this.$on('formula:input', (text) =>
-      this.tableSelector.handleFormulaInput(text)
-    );
+    this.$on('formula:input', (value) => {
+      this.tableSelector.handleFormulaInput(value);
+      this.updateCellState();
+    });
+    this.$on('toolbar:applyStyles', (styles) => {
+      this.tableSelector.applyStyles(styles);
+      this.$dispatch(
+        applyCellStyles({
+          styles,
+          cellIds: this.tableSelector.activeCellsIds,
+        })
+      );
+    });
   }
 
   onInput(event) {
     if (isCell(event)) {
-      this.$emmit('cell:input', this.tableSelector.activeCellText);
+      this.updateCellState();
     }
+  }
+
+  updateCellState() {
+    const activeCellText = this.tableSelector.activeCellText;
+    const activeCellId = this.tableSelector.activeCellIdx;
+    this.$dispatch(changeText({id: activeCellId, value: activeCellText}));
+    this.$dispatch(
+      cellStyleChange(
+        this.tableSelector.$activeCell.getCss(Object.keys(cellStyles))
+      )
+    );
   }
 
   onMousedown(event) {
@@ -45,7 +73,13 @@ export class Table extends ExcelComponent {
     }
     if (isCell(event)) {
       this.tableSelector.select(event);
+      // this.updateCellState();
       this.$emmit('cell:changed', this.tableSelector.activeCellText);
+      this.$dispatch(
+        cellStyleChange(
+          this.tableSelector.$activeCell.getCss(Object.keys(cellStyles))
+        )
+      );
       this.tableSelector.preapreMultipleSelection(event);
       this.$root.on('mousemove', this.onMousemove);
     }
@@ -53,7 +87,10 @@ export class Table extends ExcelComponent {
 
   onMouseup(event) {
     this.$root.off('mousemove', this.onMousemove);
-    this.tableResizer.resizeSrarted && this.tableResizer.resize(event);
+    this.tableResizer.resizeSrarted &&
+      this.tableResizer
+        .resize(event)
+        .then((data) => this.$dispatch(resizeTable(data)));
   }
 
   onMousemove(event) {
@@ -74,6 +111,6 @@ export class Table extends ExcelComponent {
   }
 
   toHTML() {
-    return getTable();
+    return getTable(15, this.$getState());
   }
 }

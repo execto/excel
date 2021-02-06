@@ -1,47 +1,41 @@
-import {ExcelComponent} from '../../core/ExcelComponents';
+import {StatefullExcelComponent} from '../../core/StatefullExcelComponent';
+import {createToolbar} from './toolbar.template';
+import {$} from '../../core/dom';
+import {cellStyles} from '../../consts/cellStyles';
 
-export class Toolbar extends ExcelComponent {
+export class Toolbar extends StatefullExcelComponent {
   static className = 'excel__toolbar';
 
   constructor($root, options) {
     super($root, {
       name: 'Toolbar',
+      listeners: ['click'],
+      storeKeySubsctiption: ['currentCellStyles'],
       ...options,
     });
   }
 
+  get template() {
+    return createToolbar(this.state);
+  }
+
+  prepare() {
+    this.initState(cellStyles);
+  }
+
+  storeChanged(state) {
+    this.setState(state.currentCellStyles);
+  }
+
+  onClick(event) {
+    const $target = $(event.target);
+    if ($target.data.type === 'toolbar-btn') {
+      const styleValue = JSON.parse($target.data.style);
+      this.$emmit('toolbar:applyStyles', styleValue);
+    }
+  }
+
   toHTML() {
-    return `
-        <div class="btn">
-        <span class="material-icons">
-          format_align_left
-        </span>
-      </div>
-      <div class="btn">
-        <span class="material-icons">
-          format_align_center
-        </span>
-      </div>
-      <div class="btn">
-        <span class="material-icons">
-          format_align_right
-        </span>
-      </div>
-      <div class="btn">
-        <span class="material-icons">
-          format_bold
-        </span>
-      </div>
-      <div class="btn">
-        <span class="material-icons">
-          format_italic
-        </span>
-      </div>
-      <div class="btn">
-        <span class="material-icons">
-          format_underline
-        </span>
-      </div>
-    `;
+    return this.template;
   }
 }

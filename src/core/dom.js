@@ -26,6 +26,14 @@ class Dom {
     return this;
   }
 
+  attribute(name, value) {
+    if (typeof value === 'string') {
+      this.$el.setAttribute(name, value);
+      return this;
+    }
+    return this.$el.getAttribute(name);
+  }
+
   clear() {
     this.$el.innerHTML = '';
     return this;
@@ -60,6 +68,15 @@ class Dom {
   css(styles) {
     Object.assign(this.$el.style, styles);
     return this;
+  }
+
+  getCss(styles) {
+    return styles.reduce((styles, prop) => {
+      return {
+        ...styles,
+        [prop]: this.$el.style[prop],
+      };
+    }, {});
   }
 
   toggleClass(className) {

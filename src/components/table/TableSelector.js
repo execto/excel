@@ -1,4 +1,5 @@
 import {$} from '../../core/dom';
+import parse from '../../core/parse';
 import {
   isCell,
   getCellIndexes,
@@ -35,13 +36,33 @@ export class TableSelector {
   }
 
   get activeCellText() {
-    return this.$activeCell.text();
+    return this.$activeCell.attribute('data-value');
+  }
+
+  get activeCellIdx() {
+    return this.$activeCell.data.cellcomplexname;
+  }
+
+  get activeCellsIds() {
+    const cells = [];
+    this.$selectedCells.forEach((cell) =>
+      cells.push(cell.data.cellcomplexname)
+    );
+    if (cells.indexOf(this.activeCellIdx) === -1) {
+      cells.push(this.activeCellIdx);
+    }
+    return cells;
   }
 
   init() {
     this.$activeCell = this.$table.find('[data-cellcomplexname="1:1"]');
     this.$activeCell.toggleClass(TableSelector.selectedStyle);
     this.$activeCell.focus();
+  }
+
+  applyStyles(styles) {
+    this.$activeCell.css(styles);
+    this.$selectedCells.forEach(($cell) => $cell.css(styles));
   }
 
   select(event) {
@@ -185,8 +206,8 @@ export class TableSelector {
     }
   }
 
-  handleFormulaInput(text) {
-    this.$activeCell.text(text);
+  handleFormulaInput(value) {
+    this.$activeCell.attribute('data-value', value).text(parse(value));
   }
 
   handleFormulaApply() {

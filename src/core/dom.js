@@ -26,6 +26,14 @@ class Dom {
     return this;
   }
 
+  attribute(name, value) {
+    if (typeof value === 'string') {
+      this.$el.setAttribute(name, value);
+      return this;
+    }
+    return this.$el.getAttribute(name);
+  }
+
   clear() {
     this.$el.innerHTML = '';
     return this;

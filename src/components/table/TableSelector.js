@@ -1,4 +1,5 @@
 import {$} from '../../core/dom';
+import parse from '../../core/parse';
 import {
   isCell,
   getCellIndexes,
@@ -35,7 +36,7 @@ export class TableSelector {
   }
 
   get activeCellText() {
-    return this.$activeCell.text();
+    return this.$activeCell.attribute('data-value');
   }
 
   get activeCellIdx() {
@@ -205,8 +206,8 @@ export class TableSelector {
     }
   }
 
-  handleFormulaInput(text) {
-    this.$activeCell.text(text);
+  handleFormulaInput(value) {
+    this.$activeCell.attribute('data-value', value).text(parse(value));
   }
 
   handleFormulaApply() {

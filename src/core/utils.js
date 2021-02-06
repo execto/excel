@@ -37,3 +37,15 @@ export const styleObjectToInline = (styles) => {
     }, [])
     .join(';');
 };
+
+export const debounce = (fn, wait) => {
+  let timerId;
+  return (...args) => {
+    const later = () => {
+      clearTimeout(timerId);
+      fn(...args);
+    };
+    clearTimeout(timerId);
+    timerId = setTimeout(later, wait);
+  };
+};

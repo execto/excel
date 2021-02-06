@@ -33,8 +33,8 @@ export class Table extends ExcelComponent {
 
   initSubscribers() {
     this.$on('formula:apply', () => this.tableSelector.handleFormulaApply());
-    this.$on('formula:input', (text) => {
-      this.tableSelector.handleFormulaInput(text);
+    this.$on('formula:input', (value) => {
+      this.tableSelector.handleFormulaInput(value);
       this.updateCellState();
     });
     this.$on('toolbar:applyStyles', (styles) => {

@@ -9,7 +9,6 @@ export class Header extends ExcelComponent {
     super($root, {
       name: 'Header',
       listeners: ['input'],
-      storeKeySubsctiption: ['tableName'],
       ...options,
     });
   }

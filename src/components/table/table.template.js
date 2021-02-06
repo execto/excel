@@ -1,4 +1,5 @@
 import {cellStyles} from '../../consts/cellStyles';
+import parse from '../../core/parse';
 import {appendData, styleObjectToInline} from '../../core/utils';
 
 const CHARS = {
@@ -33,10 +34,11 @@ function getCell(row, state) {
         data-rowindex="${row}"
         data-cellcomplexname="${cellComplexName}"
         data-type="cell"
+        data-value="${cellValue}"
         style="${cellDefaultStyles}; width: ${width};"
         contenteditable
       >
-        ${cellValue}
+        ${parse(cellValue)}
       </div>
     `;
   };

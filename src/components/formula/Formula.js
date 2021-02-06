@@ -24,16 +24,14 @@ export class Formula extends ExcelComponent {
   }
 
   storeChanged({currentText}) {
-    this.$inputDiv.text(currentText);
+    // this.$inputDiv.text(currentText);
   }
 
-  onInput(event) {
+  onInput() {
     this.$emmit('formula:input', this.$inputDiv.text());
   }
 
-  onClick(event) {
-    console.log(event.target);
-  }
+  onClick(event) {}
 
   onKeydown(keyEvent) {
     if (keyEvent.code === 'Enter') {

@@ -1,10 +1,10 @@
 import {$} from '../../core/dom';
 import {Emmiter} from '../../core/Emmiter';
 import {StoreSubscriber} from '../../core/StoreSubscriber';
+import {tableOpened} from '../../redux/actionCreators';
 
 export class Excel {
-  constructor(selector, options) {
-    this.$el = $(selector);
+  constructor(options) {
     this.components = options.components || [];
     this.emmiter = new Emmiter();
     this.store = options.store;
@@ -30,13 +30,14 @@ export class Excel {
     return $root;
   }
 
-  render() {
-    this.$el.append(this.getRoot());
+  init() {
     this.storeSubscriber.subscribeComponents(this.components);
     this.components.forEach((component) => component.init());
+    this.store.dispatch(tableOpened(new Date().toLocaleDateString()));
   }
 
   destroy() {
     this.components.forEach((component) => component.destroy());
+    this.storeSubscriber.unsubscribeComponents();
   }
 }

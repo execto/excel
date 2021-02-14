@@ -8,6 +8,11 @@ const defaultState = {
   cellStyles: {},
   currentCellStyles: {},
   tableName: 'New table',
+  lastOpenDate: new Date().toLocaleDateString(),
 };
 
-export const initialState = storage('exc-table') || defaultState;
+export function initialState(tableName) {
+  const state = storage(tableName) || defaultState;
+  state.tableId = tableName;
+  return state;
+}

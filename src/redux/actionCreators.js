@@ -4,6 +4,7 @@ import {
   TABLE_RESIZE,
   APPLY_CELL_STYLES,
   TABLE_NAME_CHANGE,
+  TABLE_OPENED,
 } from './actionTypes';
 
 export const resizeTable = (data) => {
@@ -48,6 +49,13 @@ export const applyCellStyles = (data) => {
 export const tableNameChange = (data) => {
   return {
     type: TABLE_NAME_CHANGE,
+    data,
+  };
+};
+
+export const tableOpened = (data) => {
+  return {
+    type: TABLE_OPENED,
     data,
   };
 };

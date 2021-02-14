@@ -3,6 +3,7 @@ import {
   CELL_STYLE_CHANGE,
   CHANGE_TEXT,
   TABLE_NAME_CHANGE,
+  TABLE_OPENED,
   TABLE_RESIZE,
 } from './actionTypes';
 
@@ -52,6 +53,11 @@ export function rootReducer(state, action) {
       return {
         ...state,
         tableName: action.data,
+      };
+    case TABLE_OPENED:
+      return {
+        ...state,
+        lastOpenDate: action.data,
       };
     default:
       return state;

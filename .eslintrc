@@ -12,5 +12,6 @@
     "space-before-function-paren": "off",
     "no-debugger": "off"
   },
-  "extends": ["eslint:recommended", "google"]
+  "extends": ["eslint:recommended", "google"],
+  "jest": true
 }

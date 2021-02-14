@@ -50,7 +50,8 @@ export class Table extends ExcelComponent {
 
   onInput(event) {
     if (isCell(event)) {
-      this.updateCellState();
+      this.tableSelector.handleCellInput();
+      this.updateCellState(); // TODO сделать оновление формулы
     }
   }
 

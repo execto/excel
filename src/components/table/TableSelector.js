@@ -210,6 +210,10 @@ export class TableSelector {
     this.$activeCell.attribute('data-value', value).text(parse(value));
   }
 
+  handleCellInput() {
+    this.$activeCell.attribute('data-value', this.$activeCell.text());
+  }
+
   handleFormulaApply() {
     this.$activeCell.focus();
   }

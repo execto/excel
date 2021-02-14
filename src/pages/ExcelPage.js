@@ -10,11 +10,21 @@ import {initialState} from '../redux/initialState';
 import {Excel} from '../components/excel/Excel';
 
 export default class ExcelPage extends Page {
+  constructor(param) {
+    super(param);
+
+    this.param = param;
+  }
+
+  get tableName() {
+    return `excel:${this.param}`;
+  }
+
   getRoot() {
-    const store = createStore(rootReducer, initialState);
+    const store = createStore(rootReducer, initialState(this.tableName));
 
     const writeToStorage = debounce(
-      (state) => storage('exc-table', state),
+      (state) => storage(this.tableName, state),
       300
     );
 
@@ -30,5 +40,9 @@ export default class ExcelPage extends Page {
 
   afterRender() {
     this.excel.init();
+  }
+
+  destroy() {
+    this.excel.destroy();
   }
 }

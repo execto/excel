@@ -16,13 +16,17 @@ export default class Router {
   }
 
   hashchandeHandler() {
+    if (this.page) {
+      this.page.destroy();
+    }
+
     const route = ActiveRoute.route;
     const Page = this.routes[route];
-    const page = new Page();
+    this.page = new Page(ActiveRoute.param);
     this.$root.clear();
-    this.$root.append(page.getRoot());
+    this.$root.append(this.page.getRoot());
 
-    page.afterRender();
+    this.page.afterRender();
   }
 
   destroy() {
